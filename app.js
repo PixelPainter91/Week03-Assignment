@@ -43,3 +43,19 @@ let cps = 0;
 //--append it to the DOM
 
 //after you complete this task, you shoud see the upgrades in your shop-container!
+
+//create function(s) to handle the purchase action
+
+//the user needs a button to buy the item 
+//when the user clicks the button:
+//subtract cost of upgrades from totalCookieCount
+//addincreasse value to cps
+//save new values in local storage
+//==============================================================
+// the interval 
+
+setInterval(function(){
+    totalCookieCount += cps;// totalCookieCount = totalCookieCount + cps
+    //update the DOM to reflec the changes in the value
+    //save the values in the local storage
+}, 1000);
