@@ -7,3 +7,43 @@
 body{
     background-color: bisque;
 }
+#container{ 
+    display: flex;
+    justify-content: center;
+    width: 228px;
+    height: 272px;
+    background-image: url("assets/backgroundUI.png");
+    background-size: cover;
+    z-index: 0;
+}
+#loot{
+    position: relative;
+    display: block;
+    height: 150px;
+    width: auto;
+    top: 70px;
+    left:50px;
+    z-index: 99;
+}
+#buy{
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 20px;
+    border: 2px solid black;
+    background-color: blueviolet;
+    top: 215px;
+    right:90px;
+    z-index: 1;
+}
+#sell{
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 20px;
+    border: 2px solid black;
+    background-color: blueviolet;
+    top: 215px;
+    right:55px;
+    z-index: 2;
+}
