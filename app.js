@@ -1,61 +1,129 @@
 console.log("hello, world!");
 //game logic 
+
+let totalSoulCount =parseInt(localStorage.getItem("totalSoulCount"))||0;
+let sps = parseInt(localStorage.getItem("sps")) ||0;
+let currentItem = null;
+const soulBtn = document.getElementById("bluesoul");
+const totalDisplay = document.querySelector("#count-countainer p:first-child");
+const spsDisplay = document.querySelector("#count-countainer p:last-child");
+const shopContainer = document.getElementById("shop");
+const lilDeath = document.getElementById("lildeath");
+
+let upgrades = {};
+
+function updateDOM(){
+    totalDisplay.textContent = `Total Soul: ${totalSoulCount}`;
+    spsDisplay.textContent = `Souls per second (SPS): ${sps}`;
+}
+updateDOM();
 //when the user clicks on the "cookie" the count of cookies goes up by 1
-
-//when the user clicks on the "buy" button in an upgrade in the shop, the total count of cookies goes down byy the cost of the upgrade, and the cps value goes up
-
-//we will need functions to contain the game logic
-
+soulBtn.addEventListener("click", function(){
+    totalSoulCount++;
+    updateDOM();
+    localStorage.setItem("totalSoulCount", totalSoulCount);
+    
+});
 //we will get upgrades data from the API: https://cookie-upgrade-api.vercel.app/api/upgrades
+async function fetchUpgrades(){
+    const response = await fetch("https://cookie-upgrade-api.vercel.app/api/upgrades");
+    const apiUpgrades = await response.json();
 
-//each function will have a task
+    upgrades = {
+  weapon: { cost: Number(apiUpgrades[0]?.cost) || 0, cps: Number(apiUpgrades[0]?.cps) || 1 },
+  spellbook: { cost: Number(apiUpgrades[1]?.cost) || 0, cps: Number(apiUpgrades[1]?.cps) || 2 },
+  cauldron: { cost: Number(apiUpgrades[2]?.cost) || 0, cps: Number(apiUpgrades[2]?.cps) || 5}
+};
+    console.log("Upgrades loaded:", upgrades);
 
-// to create the logic for the shop upgrades two options:
+};
+fetchUpgrades();
+//upgrades
 
-//option 1: have a function to handle each upgrade
+const weaponImg = document.getElementById("loot");
+weaponImg.addEventListener("click", function(){
+    currentItem = "weapon";
 
-//option 2: have you could have a reuseable function that works for all upgrades 
+});
 
-//Tip on loacl storage: 
-//- make sure the local storage values are updated after the user buys an ugrade AND when the user clicks on the cookie 
 
-//===============================================
-//data storage
-let totalCookieCount = 0;
-let cps = 0;
-//or
-/*let stats = {
-    cookieCount: 0,
-    cps: 0
-};*/
+//when i add the speel book
+const spellbookImg = document.getElementById("spellbook");
+if (spellbookImg){
+    spellbookImg.addEventListener("click", function(){
+        currentItem = "spellbook";
+    });
+}
+const cauldronImg = document.getElementById("cauldron");
+if (cauldronImg){
+    cauldronImg.addEventListener("click", function(){
+        currentItem = "cauldron";
+    });
+}
 
-//if there is data already in local storage update stats with this data so the user picks it up where they left off ==============================================
-//shop upgrades 
+const buyBtn = document.getElementById("buy");
+buyBtn.addEventListener("click", function() {
+    if (!currentItem) {
+        alert("Select an upgrade!");
+        return;
+    }
 
-//fetch the upgrades from the API
+    const item = upgrades[currentItem];
+    if (!item) {
+        alert("Upgrade not loaded");
+        return;
+    }
 
-//create multiple DOM elements to contain the upgrades (loop)
+    const cost = Number(item.cost);
+    const gain = Number(item.cps);
 
-//TODO: create DOM elemets for the shop upgrades
+    if (totalSoulCount >= cost) {
+        totalSoulCount -= cost;
+        sps += gain;
+        updateDOM();
+        localStorage.setItem("totalSoulCount", totalSoulCount);
+        localStorage.setItem("sps", sps);
 
-//- create the element
-//- assohm the value to its property (textContent)
-//--append it to the DOM
+    if (currentItem === "weapon") {
+            lilDeath.src = "./sprites/idledeathweapon1.gif";
+        }
+    } else {
+        alert("Not Enough Souls!");
+    }
+});
 
-//after you complete this task, you shoud see the upgrades in your shop-container!
 
-//create function(s) to handle the purchase action
+const sellBtn = document.getElementById("sell");
+sellBtn.addEventListener("click", function() {
+    if (!currentItem) {
+        alert("Select an upgrade first!");
+        return;
+    }
 
-//the user needs a button to buy the item 
-//when the user clicks the button:
-//subtract cost of upgrades from totalCookieCount
-//addincreasse value to cps
-//save new values in local storage
-//==============================================================
-// the interval 
+    const item = upgrades[currentItem];
+    if (!item) {
+        alert("Upgrade data not loaded");
+        return;
+    }
+
+    const cost = Number(item.cost);
+    const gain = Number(item.cps);
+
+    totalSoulCount += Math.floor(cost / 2);
+    sps -= gain;
+    if (sps < 0) sps = 0;
+
+    updateDOM();
+    localStorage.setItem("totalSoulCount", totalSoulCount);
+    localStorage.setItem("sps", sps);
+});
+
+
 
 setInterval(function(){
-    totalCookieCount += cps;// totalCookieCount = totalCookieCount + cps
+    totalSoulCount += sps;// totalCookieCount = totalCookieCount + cps
     //update the DOM to reflec the changes in the value
+    updateDOM();
     //save the values in the local storage
+    localStorage.setItem("totalSoulCount", totalSoulCount);
 }, 1000);

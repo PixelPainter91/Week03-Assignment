@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <script src="./app.js" defer></script>
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Soul Collector</title>
 </head>
 <body>
-    <header>
-        <h1>Soul Collecter</h1>
-        
-    </header>
-    <main>
-        <!--clickable element -->
+  <header>
+    <h1>Soul Collector</h1>
+  </header>
 
-        <section id="container"> <img src="./assets/Weapon1-1.png.png" id="loot"/><button id="buy">Buy</button> <button id="sell">Sell</button></section>
+  <section id="middle">
+    <img id="lildeath" src="./sprites/idledeath.gif" alt="player" />
+  </section>
 
+  <section id="shop">
+    <img src="./assets/placeholdercontianerblue.png" id="shopcontainerui" alt="" />
+    <img src="./assets/Weapon1-1.png.png" id="loot" alt="weapon" />
+    <img src="./assets/spellbook.png" id="spellbook" alt="spellbook" />
+    <img src="./assets/cauldron.png" id="cauldron" alt="cauldron" />
+    <button id="buy">Buy</button>
+    <button id="sell">Sell</button>
+  </section>
 
-        <!-- game into-->
-         <p>total cookie count: 0</p>
-         <p>cookies per second(cps):0 </p>
-         <!--container for upgrades-->
-         
+  <section id="soulclicker">
+    <img src="./assets/soulholder.png" id="soulcontainer" alt="" />
+    <img src="./sprites/bluesoul (1).gif" id="bluesoul" alt="blue soul" />
+  </section>
 
-    </main>
+  <div id="count-countainer">
+    <p>total soul count: 0</p>
+    <p>Souls per second(sps): 0</p>
+  </div>
 
-    
+  <script src="./app.js" defer></script>
 </body>
 </html>
