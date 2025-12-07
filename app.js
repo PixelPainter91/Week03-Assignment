@@ -142,3 +142,34 @@ document.getElementById("reset").addEventListener("click", function(){
         updateDOM();
     
 });
+
+//=============================================================================
+
+let controlEnabled = false;
+let deathX = 100;
+let deathY = 100;
+var moveSpeed = 10;
+
+lilDeath.addEventListener("click", function () {
+    controlEnabled = true;
+   // lilDeath.style.outline = "2px solid yellow";
+   // lilDeath.style.borderRadius = "50%";
+});
+
+document.addEventListener("keydown", function (e) {
+    if (!controlEnabled) return;
+
+    if (e.key === "ArrowUp") deathY -= moveSpeed;
+    if (e.key === "ArrowDown") deathY += moveSpeed;
+    if (e.key === "ArrowLeft") deathX -= moveSpeed;
+    if (e.key === "ArrowRight") deathX += moveSpeed;
+    if (e.key === "Escape") {
+        controlEnabled = false;
+        lilDeath.style.outline = "none";
+        lilDeath.style.borderRadius = "0";
+        return;
+    }
+
+    lilDeath.style.left = deathX + "px";
+    lilDeath.style.top = deathY + "px";
+});
